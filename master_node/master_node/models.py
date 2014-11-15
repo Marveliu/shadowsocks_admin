@@ -60,7 +60,7 @@ def up_user():
     f = open(settings.SS_CONFIG_JSON_PATH,'wb')
     json.dump(res,f)
     f.close()
-	os.system("killall -HUP shadowsocks-server")
+    os.system("killall -HUP shadowsocks-server")
     
     
 
