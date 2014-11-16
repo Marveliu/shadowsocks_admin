@@ -1,6 +1,18 @@
-{% extends "base.html" %}
+{% extends "base_container.html" %}
 
-{% block content %}
+{% block content_container %}
 
-首页
+    <div class="container theme-showcase" role="main">
+    
+
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>VPN</h1>
+        <p>目标是一次配置永久使用。</p>
+		<p>目前是 <a href="https://shadowsocks.com/">shadowsocks</a> 协议，<a href="https://github.com/cyfdecyf/cow" >cow</a> 自动识别并处理 被Qiang 站点，多节点自动选择最快ss服务器，专用客户端自动同步最新节点。一切正在实现中。</p>
+        <p><a href="#" class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+      </div>
+
+    </div> <!-- /container -->
 {% endblock %}

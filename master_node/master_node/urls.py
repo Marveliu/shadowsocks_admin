@@ -5,6 +5,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = patterns('master_node.views',
@@ -18,8 +20,8 @@ urlpatterns = patterns('master_node.views',
 	(r'^accounts/register/$',  'register',),
 	(r'^accounts/login/$',  login,),
 	(r'^accounts/profile/$',  'profile',),
-    (r'^accounts/logout/$', logout),
+    (r'^accounts/logout/$', 'logout'),
 
 
     url(r'^admin/', include(admin.site.urls)),
-)
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

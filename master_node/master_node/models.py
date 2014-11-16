@@ -5,11 +5,14 @@ from django.db import models
 from django.contrib import admin
 from datetime import datetime,date,timedelta
 import settings
-import json,os
+import json,os,string,random
 
 
 from django.contrib.auth.models import User
 
+def GenPassword(length):
+    chars=string.ascii_letters+string.digits
+    return ''.join([random.choice(chars) for i in range(length)])#
 
 class Profile(models.Model):
     u'''帐号附加信息'''
@@ -25,13 +28,23 @@ class Profile(models.Model):
     end_date = models.DateTimeField()#结束日期
     is_full = models.BooleanField(default=False)  #是否流量用尽
   
-    
+    def is_warning(self):
+        u"""流量是否警告   注意没有管 is_full """        
+        if  self.flow_proportion()>0.8 :
+            return True
+        return False
+    def flow_proportion(self):
+        return float(self.used_flow)/self.all_flow
+    def flow_proportion_100(self):
+        return float(self.used_flow)/self.all_flow * 100
+
     class Meta:
         verbose_name = u'账号'
         verbose_name_plural = verbose_name
 
     def __unicode__(self):
         return self.user.username
+        
 
 
 
@@ -45,7 +58,20 @@ admin.site.register(Profile,ProfileAdmin)
 
 def get_profile(user):
     #TODO: 这里没有考虑建立账号是未建立 Profile 的情况。 
-    return Profile.objects.get(user=user)
+    
+    res = None
+    try:
+        res = Profile.objects.get(user=user)
+    except:
+        res = Profile(user=user,
+                              sport=8000+user.id,
+                              spass=GenPassword(10),
+                              start_date=datetime.now(),
+                              now_date=datetime.now(),
+                              end_date=datetime.now())
+        res.save()
+
+    return res
 
 def up_user():
     u"""更新了user后调用的方法。动态更新config.json文件"""

@@ -1,21 +1,47 @@
-{% extends "base.html" %}
+{% extends "base_container.html" %}
 
-{% block content %}
+{% block content_container %}
+
+  
+  
+
+    <div class="container theme-showcase" role="main">
+    
+    {% for message in messages %}    
+<div class="alert alert-info alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  {{ message }}
+</div>
+{% endfor %}
+    
+      <form class="form-signin" role="form" action="" method="post">
 
 
-  {% if form.errors %}
-    <p class="error">Sorry, that's not a valid username or password</p>
-  {% endif %}
-
-  <form action="" method="post">
-    <label for="username">User name:</label>
-    <input type="text" name="username" value="" id="username">
-    <label for="password">Password:</label>
-    <input type="password" name="password" value="" id="password">
-	  {% csrf_token %}
-    <input type="submit" value="login" />
+        <h2 class="form-signin-heading">请登录</h2>
+        <input type="text" class="form-control"  name="username" value="" id="username" placeholder="账号" required autofocus>
+        <input type="password" class="form-control" placeholder="密码" required name="password" value="" id="password">
+        <!-- div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div -->
+			  {% csrf_token %}
     <input type="hidden" name="next" value="{{ next|escape }}" />
-  </form>
+  {% if form.errors %}
+	<div class="alert alert-danger" role="alert">
+  		错误的用户名或密码，请重新输入。
+      </div>
+  {% endif %}
+  <p><a  style="display: block;float: left;padding:0 0 10px 30px;"  href="/accounts/register/" >注册新账号</a><a  style="display: block;float: right;padding:0 30px 10px 0;" href="mailto:gamexg+vpn@gmail.com" >忘记密码</a></p>  
+  
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+      </form>
 
+  
+  
+  
 
+    </div> <!-- /container -->
+  
+  
 {% endblock %}
