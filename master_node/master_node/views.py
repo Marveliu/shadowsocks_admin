@@ -141,7 +141,7 @@ class UserCreationForm(forms.ModelForm):
         except User.DoesNotExist:
             return username
         raise forms.ValidationError(
-            self.error_messages['duplicate_username'],
+            u'用户名已经被使用了，请更换。',
             code='duplicate_username',
         )
 
