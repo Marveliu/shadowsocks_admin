@@ -176,7 +176,8 @@ def register(request):
                               end_date=datetime.now()+timedelta(days=30))
             profile.save()
             up_user()  # 新建用户后同步ss服务器
-            return HttpResponseRedirect("/")
+            messages.success(request,message=u'注册成功，请登录。')
+            return HttpResponseRedirect("/accounts/login/")
     else:
         form = UserCreationForm()
     return render_to_response("registration/register.html", {
