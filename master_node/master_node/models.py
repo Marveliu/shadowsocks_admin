@@ -80,7 +80,7 @@ def get_profile(user):
 def up_user(): 
     u"""更新了user后调用的方法。通知主服务器"""
     proxy = xmlrpclib.ServerProxy("http://127.0.0.1:%s/"%(settings.LISTENING_PORT))
-    proxy.async_update_ss_config(mycrypto.encrypt_verify(1))
+    proxy.update_ss_config(mycrypto.encrypt_verify(settings.AES_KEY,1))
     
     
 

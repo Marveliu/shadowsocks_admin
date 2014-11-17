@@ -36,11 +36,11 @@ AUTH_PROFILE_MODULE = 'master_node.Profile'     #app名称.类名
 SECRET_KEY = 'w!*#w&h^6)^_j%jgqj%w%d00=u#2swvf(7vb-z)*n$r^v^0&r*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+DEBUG = True
 
-#TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

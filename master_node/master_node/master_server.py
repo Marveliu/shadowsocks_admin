@@ -20,13 +20,14 @@ import thread
 # DJANGO 配置
 BASE_DIR = os.path.dirname(__file__)
 MY_DJANGO_DIR = os.path.dirname(BASE_DIR)
+print MY_DJANGO_DIR
 sys.path.append(MY_DJANGO_DIR)  
 os.environ['DJANGO_SETTINGS_MODULE'] ='master_node.settings'
-  
-from django.core.management import setup_environ  
-import settings   
-setup_environ(settings)
 
+import django
+django.setup()
+
+from django.conf import settings
 from master_node.models import *
 
 # 和ss节点通信加密用的 AES KEY 。
@@ -70,9 +71,9 @@ def update_ss_config():
 
     ss_config_json = json.dumps(ss_config,encoding='utf8')
     
-     nodes = Node.objects.all()
-     for n in nodes:
-         update_ss_config_as_node(n.addr,ss_config_json)
+    nodes = Node.objects.all()
+    for n in nodes:
+        update_ss_config_as_node(n.addr,ss_config_json)
 
 def async_update_ss_config(aes_data):
     data = mycrypto.decrypt_verify(AES_KEY,aes_data)
