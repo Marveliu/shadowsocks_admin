@@ -21,8 +21,8 @@ class Profile(models.Model):
     sport = models.IntegerField()#ss端口
     spass = models.CharField(max_length=20, default='')#s密码
     smethod = models.CharField(max_length=20, default='aes-128-cfb') #加密方式
-    used_flow = models.IntegerField(default=0)#当月已用流量
-    all_flow = models.IntegerField(default=10*1024*1024*1024)#当月总流量
+    used_flow = models.BigIntegerField(default=0)#当月已用流量
+    all_flow = models.BigIntegerField(default=10*1024*1024*1024)#当月总流量
     start_date = models.DateTimeField(auto_now_add=True)#开始日期
     now_date = models.DateTimeField(auto_now_add=True)#当前统计月
     end_date = models.DateTimeField()#结束日期
@@ -96,10 +96,10 @@ class Flow(models.Model):
 
     user = models.ForeignKey(User,unique=True)  #User 外键且唯一
     time= models.DateTimeField(auto_now_add=True)#统计时间
-    original_in_flow = models.IntegerField(default=0)#原始入站流量
-    original_out_flow = models.IntegerField(default=0)#原始入站流量
-    in_flow = models.IntegerField(default=0)#入站流量
-    out_flow = models.IntegerField(default=0)#入站流量
+    original_in_flow = models.BigIntegerField(default=0)#原始入站流量
+    original_out_flow = models.BigIntegerField(default=0)#原始入站流量
+    in_flow = models.BigIntegerField(default=0)#入站流量
+    out_flow = models.BigIntegerField(default=0)#入站流量
     port = models.IntegerField()#ss端口
     node_id = models.IntegerField()#节点id
     
