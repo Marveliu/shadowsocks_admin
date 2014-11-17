@@ -6,6 +6,10 @@ from django.contrib import admin
 from datetime import datetime,date,timedelta
 import settings
 import json,os,string,random
+from SimpleXMLRPCServer import SimpleXMLRPCServer
+import xmlrpclib
+import json
+import mycrypto
 
 
 from django.contrib.auth.models import User
@@ -73,20 +77,10 @@ def get_profile(user):
 
     return res
 
-def up_user():
-    u"""更新了user后调用的方法。动态更新config.json文件"""
-    Profiles = Profile.objects.filter(is_full=False,start_date__lte=datetime.now(),end_date__gte=datetime.now())
-    res={
-         "port_password":{},
-         "method":"aes-128-cfb",
-         "timeout":600
-        }
-    for p in Profiles:
-        res['port_password']["%s"%p.sport]=p.spass
-    f = open(settings.SS_CONFIG_JSON_PATH,'wb')
-    json.dump(res,f)
-    f.close()
-    os.system("killall -HUP shadowsocks-server")
+def up_user(): 
+    u"""更新了user后调用的方法。通知主服务器"""
+    proxy = xmlrpclib.ServerProxy("http://127.0.0.1:%s/"%(settings.LISTENING_PORT))
+    proxy.async_update_ss_config(mycrypto.encrypt_verify(1))
     
     
 

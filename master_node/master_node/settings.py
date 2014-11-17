@@ -12,6 +12,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+# 和ss节点通信加密用的 AES KEY 。
+AES_KEY = 'dsfsrt45gbi6h7beabsyrhyuj6gwaggi8eguf2setf4gf7wfwdfseg3bvtss'
+# SS NODE 监听端口
+SS_NODE_LISTENING_PORT= 1531
+# 主服务器后台进程监听端口
+LISTENING_PORT= 1530
+
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -27,9 +36,9 @@ AUTH_PROFILE_MODULE = 'master_node.Profile'     #app名称.类名
 SECRET_KEY = 'w!*#w&h^6)^_j%jgqj%w%d00=u#2swvf(7vb-z)*n$r^v^0&r*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-TEMPLATE_DEBUG = True
+#TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
