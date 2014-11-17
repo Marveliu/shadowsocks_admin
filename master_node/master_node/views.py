@@ -185,7 +185,13 @@ def register(request):
     },
                                         context_instance=RequestContext(request,))
 
-
+def nodes(request):
+    nodes = Node.objects.all()
+    return render_to_response("nodes.html", {
+        'nodes': nodes,
+    },
+                                        context_instance=RequestContext(request,))
+    
 
 
 def tree(request,id):

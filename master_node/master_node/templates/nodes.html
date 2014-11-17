@@ -1,0 +1,28 @@
+{% extends "base_container.html" %}
+
+{% block content_container %}
+
+    
+
+
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>节点名称</th>
+          <th>节点地址</th>
+          <th>节点状态</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for node in nodes %}
+        <tr >
+          <td>{{node.name}}</td>
+          <td>{{ node.addr }}</td>
+          <td>[未实现]</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+{% endblock %}
