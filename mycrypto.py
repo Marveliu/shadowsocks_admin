@@ -26,21 +26,21 @@ IV = b'dsfgh478fdshg4gf'
 def encrypt(key,text):
     # 密钥key 长度必须为16（AES-128）, 24（AES-192）,或者32 （AES-256）Bytes 长度
     # 所以直接将用户提供的 key md5 一下变成32位的。
-	key_md5 = hashlib.md5(key).hexdigest()
+    key_md5 = hashlib.md5(key).hexdigest()
     #  AES.MODE_CFB 是加密分组模式，详见 http://blog.csdn.net/aaaaatiger/article/details/2525561
     # b'0000000000000000' 是初始化向量IV ，16位要求，可以看做另一个密钥。在部分分组模式需要。
     # 那个 b 别漏下，否则出错。
-	cipher = AES.new(key_md5,AES.MODE_CFB,IV)
+    cipher = AES.new(key_md5,AES.MODE_CFB,IV)
         # AES 要求需要加密的内容长度为16的倍数，当密文长度不够的时候用 '\0' 不足。
-	ntext = text + ('\0' * (16-(len(text)%16)))
+    ntext = text + ('\0' * (16-(len(text)%16)))
         # b2a_hex 转换一下，默认加密后的字符串有很多特殊字符。
-	return b2a_hex(cipher.encrypt(ntext))
+    return b2a_hex(cipher.encrypt(ntext))
 
 def decrypt(key,text):
-	key_md5 = hashlib.md5(key).hexdigest()
-	cipher = AES.new(key_md5,AES.MODE_CFB,IV)
-	t=cipher.decrypt(a2b_hex(text))
-	return t.rstrip('\0')
+    key_md5 = hashlib.md5(key).hexdigest()
+    cipher = AES.new(key_md5,AES.MODE_CFB,IV)
+    t=cipher.decrypt(a2b_hex(text))
+    return t.rstrip('\0')
 
 
 def encrypt_verify(key,text):
