@@ -18,7 +18,6 @@ u""" ss 节点管理
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 import xmlrpclib
 import json
-import mycrypto
 import os,sys
 
 
@@ -36,6 +35,7 @@ SS_NODE_LISTENING_PORT= 1531
 # ss 配置文件路径
 SS_CONFIG_PATH = ''
 
+import mycrypto
 
 try:
     import config
