@@ -12,7 +12,6 @@ u""" 主节点后台进程
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 import xmlrpclib
 import json
-import mycrypto
 import os,sys
 import hashlib
 import thread  
@@ -39,6 +38,7 @@ SS_NODE_LISTENING_PORT= settings.SS_NODE_LISTENING_PORT
 MASTER_SERVER_LISTENING_PORT= settings.MASTER_SERVER_LISTENING_PORT
   
   
+import mycrypto
   
 
 def update_ss_config_as_node(host,ss_config,port = SS_NODE_LISTENING_PORT,key = AES_KEY):
