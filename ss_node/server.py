@@ -118,4 +118,5 @@ def get_flow(aes_data):
 
 
 server.register_function(update_ss_config, 'update_ss_config')
+server.register_function(get_flow, 'get_flow')
 server.serve_forever()
