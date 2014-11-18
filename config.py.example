@@ -7,6 +7,8 @@ u"""
 
 
 """
+import os
+
 # My Shadowsocks 项目目录
 MY_SHADOWSOCKS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -34,7 +36,7 @@ ALLOWED_HOSTS=['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(MY_SHADOWSOCKS_DIR, 'master_node/db.sqlite3'),
     }
 }
 
