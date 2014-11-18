@@ -1,0 +1,43 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# utf-8 中文编码
+
+u"""
+统一的配置文件
+
+
+"""
+# My Shadowsocks 项目目录
+MY_SHADOWSOCKS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+# 和ss节点通信加密用的 AES KEY 。
+# 注意：需要手工输入一些随机字符。
+AES_KEY = ''
+
+# SS NODE 监听端口
+SS_NODE_LISTENING_PORT= 1531
+
+# 主服务器后台进程监听端口
+MASTER_SERVER_LISTENING_PORT= 1530
+
+# Django SECRET_KEY
+SECRET_KEY = AES_KEY
+
+DEBUG = False
+
+# Django ALLOWED_HOSTS
+ALLOWED_HOSTS=['*']
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+
+# ss 配置文件路径  注意：需要写权限。
+SS_CONFIG_PATH = os.path.join(MY_SHADOWSOCKS_DIR,'config.json')

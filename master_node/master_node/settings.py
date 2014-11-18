@@ -12,35 +12,64 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# 和ss节点通信加密用的 AES KEY 。
-AES_KEY = 'dsfsrt45gbi6h7beabsyrhyuj6gwaggi8eguf2setf4gf7wfwdfseg3bvtss'
-# SS NODE 监听端口
-SS_NODE_LISTENING_PORT= 1531
-# 主服务器后台进程监听端口
-LISTENING_PORT= 1530
-
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-SS_CONFIG_JSON_PATH = os.path.join(os.path.join(BASE_DIR,'../'),'config.json')
+
+# 和ss节点通信加密用的 AES KEY 。
+AES_KEY = ''
+# SS NODE 监听端口
+SS_NODE_LISTENING_PORT= 1531
+# 主服务器后台进程监听端口
+MASTER_SERVER_LISTENING_PORT= 1530
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = ''
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+TEMPLATE_DEBUG = False
+
+ALLOWED_HOSTS = []
+
+# Django 数据库配置
+DATABASES = None
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# My Shadowsocks 项目目录
+MY_SHADOWSOCKS_DIR = os.path.join(BASE_DIR,'../')
+
+sys.path.append(MY_SHADOWSOCKS_DIR)
+
+try:
+    import config
+    AES_KEY = config.AES_KEY
+    SS_NODE_LISTENING_PORT = config.SS_NODE_LISTENING_PORT
+    MASTER_SERVER_LISTENING_PORT = config.MASTER_SERVER_LISTENING_PORT
+    SECRET_KEY = config.SECRET_KEY
+    DEBUG=config.DEBUG
+    TEMPLATE_DEBUG = config.DEBUG
+    ALLOWED_HOSTS = config.ALLOWED_HOSTS
+    DATABASES = config.DATABASES
+except ImportError,inst :
+    print (u'未找到配置文件，或配置文件错误，请检查。')
+    raise inst
+
+
+
+
+
 
 AUTH_PROFILE_MODULE = 'master_node.Profile'     #app名称.类名
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'w!*#w&h^6)^_j%jgqj%w%d00=u#2swvf(7vb-z)*n$r^v^0&r*'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,12 +105,6 @@ TEMPLATE_DIRS = (
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

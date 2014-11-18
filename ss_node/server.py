@@ -21,18 +21,35 @@ import json
 import mycrypto
 import os
 
-BASE_DIR = os.path.dirname(__file__)
+
+
+
+# My Shadowsocks 项目目录
+MY_SHADOWSOCKS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+sys.path.append(MY_SHADOWSOCKS_DIR)
 
 # 和主节点通信加密用的 AES KEY 。
-AES_KEY = 'dsfsrt45gbi6h7beabsyrhyuj6gwaggi8eguf2setf4gf7wfwdfseg3bvtss'
-# 监听端口
-LISTENING_PORT= 1531
+AES_KEY = ''
+# SS NODE 监听端口
+SS_NODE_LISTENING_PORT= 1531
 # ss 配置文件路径
-SS_CONFIG_PATH = os.path.join(BASE_DIR,'config.json')
+SS_CONFIG_PATH = ''
 
 
-server = SimpleXMLRPCServer(('0.0.0.0', LISTENING_PORT))
-print u"Listening on port %s..."%LISTENING_PORT
+try:
+    import config
+    AES_KEY = config.AES_KEY
+    SS_NODE_LISTENING_PORT = config.SS_NODE_LISTENING_PORT
+    SS_CONFIG_PATH=config.SS_CONFIG_PATH
+
+except ImportError,inst :
+    print (u'未找到配置文件，或配置文件错误，请检查。')
+    raise inst
+
+
+server = SimpleXMLRPCServer(('0.0.0.0', SS_NODE_LISTENING_PORT))
+print (u"Listening on port %s..."%SS_NODE_LISTENING_PORT)
  
 
 def update_ss_config(aes_data):

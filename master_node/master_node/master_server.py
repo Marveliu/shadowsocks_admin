@@ -36,7 +36,7 @@ AES_KEY = settings.AES_KEY
 # SS NODE 监听端口
 SS_NODE_LISTENING_PORT= settings.SS_NODE_LISTENING_PORT
 # 主服务器后台进程监听端口
-LISTENING_PORT= settings.LISTENING_PORT
+MASTER_SERVER_LISTENING_PORT= settings.MASTER_SERVER_LISTENING_PORT
   
   
   
@@ -74,7 +74,8 @@ def update_ss_config():
     
     nodes = Node.objects.all()
     for n in nodes:
-        update_ss_config_as_node(n.addr,ss_config_json)
+        print (u'开始更新节点 %s'%n.addr)
+        print (update_ss_config_as_node(n.addr,ss_config_json))
 
 def async_update_ss_config(aes_data):
     data = mycrypto.decrypt_verify(AES_KEY,aes_data)
@@ -85,8 +86,8 @@ def async_update_ss_config(aes_data):
         return xmlrpclib.Binary(json.dumps({'status':'aes_err'}))
     
 
-server = SimpleXMLRPCServer(('127.0.0.1', LISTENING_PORT))
-print u"Listening on port %s..."%LISTENING_PORT
+server = SimpleXMLRPCServer(('127.0.0.1', MASTER_SERVER_LISTENING_PORT))
+print u"Listening on port %s..."%MASTER_SERVER_LISTENING_PORT
 
 server.register_function(async_update_ss_config, 'update_ss_config')
 server.serve_forever()
