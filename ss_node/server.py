@@ -7,19 +7,18 @@ u""" ss 节点管理
 需实现的功能：
 
     1.接收主节点推送的账号更新，并处理
-    2.读取流量并推送到服务器
-    3.维护ss正常运行
-    4.读取ss日志并推送到主服务器（用来统计账号在线信息）
-    5.定时通知服务器本节点健康状态。
+    2.读取流量
+    3.读取ss日志并推送到主服务器（用来统计账号在线信息）
+    4.定时通知服务器本节点健康状态。
     
-    实际只打算在本文件实现<1>功能。
+注意：统计流量功能需要 root 权限。
  """
 
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 import xmlrpclib
 import json
 import os,sys
-
+import time, sys,iptc
 
 
 
@@ -48,6 +47,13 @@ except ImportError,inst :
     raise inst
 
 
+
+
+
+
+
+
+
 server = SimpleXMLRPCServer(('0.0.0.0', SS_NODE_LISTENING_PORT))
 print (u"Listening on port %s..."%SS_NODE_LISTENING_PORT)
  
@@ -72,7 +78,44 @@ def update_ss_config(aes_data):
     with open(SS_CONFIG_PATH,'wb') as file:
         file.write(r['ss_config'])
     os.system('killall -HUP shadowsocks-server')
-    return xmlrpclib.Binary(mycrypto.encrypt_verify(AES_KEY,json.dumps({'statos':'ok'},encoding='utf8')))
+    return xmlrpclib.Binary(mycrypto.encrypt_verify(AES_KEY,json.dumps({'status':'ok'},encoding='utf8')))
  
+def get_flow(aes_data):
+    u'''''' 
+    text = mycrypto.decrypt_verify(AES_KEY,aes_data.data)
+    if text == None:return xmlrpclib.Binary(json.dumps({'statos':'err_ase'},encoding='utf8'))
+
+    res={
+            'flow_in':[],  # [(8001,3916788L)]
+            'flow_out':[],
+            'status':'ok'
+        }
+
+
+    table = iptc.Table(iptc.Table.FILTER)
+
+    chain_in = iptc.Chain(table, 'INPUT')
+    chain_out = iptc.Chain(table, 'OUTPUT')
+
+    table.refresh()
+
+    for rule in chain_out.rules:
+        if len(rule.matches)>0:
+            sport = rule.matches[0].sport
+            if sport:
+                res['flow_out'].append((sport,rule.get_counters()[1]))
+
+    for rule in chain_in.rules:
+        if len(rule.matches)>0:
+            dport = rule.matches[0].dport
+            if sport:
+                res['flow_in'].append((dport,rule.get_counters()[1]))
+
+
+    return xmlrpclib.Binary(mycrypto.encrypt_verify(AES_KEY,json.dumps(res,encoding='utf8')))
+
+
+
+
 server.register_function(update_ss_config, 'update_ss_config')
 server.serve_forever()

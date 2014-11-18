@@ -46,7 +46,7 @@ def update_ss_config_as_node(host,ss_config,port = SS_NODE_LISTENING_PORT,key = 
     aes_data = xmlrpclib.Binary(mycrypto.encrypt_verify(AES_KEY,json.dumps({'ss_config':ss_config},encoding='utf8')))
     aes_res = proxy.update_ss_config(aes_data)
     res = json.loads( mycrypto.decrypt_verify(AES_KEY,aes_res.data) ,encoding='utf8')
-    if res['statos']=='ok':
+    if res['status']=='ok':
         return True
     else:
         return False
