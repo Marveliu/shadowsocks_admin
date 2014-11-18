@@ -75,7 +75,10 @@ def update_ss_config():
     nodes = Node.objects.all()
     for n in nodes:
         print (u'开始更新节点 %s'%n.addr)
-        print (update_ss_config_as_node(n.addr,ss_config_json))
+        try:
+            print (update_ss_config_as_node(n.addr,ss_config_json))
+        except Exception,inst:
+            print(inst)
 
 def async_update_ss_config(aes_data):
     data = mycrypto.decrypt_verify(AES_KEY,aes_data)
