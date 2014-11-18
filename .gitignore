@@ -52,3 +52,9 @@ docs/_build/
 
 # PyBuilder
 target/
+*.sln
+*.pyproj
+*.suo
+master_node/db.sqlite3
+config.json
+config.py
