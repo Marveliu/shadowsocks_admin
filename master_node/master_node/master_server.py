@@ -18,11 +18,12 @@ import hashlib
 import thread  
 
 # DJANGO 配置
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MY_DJANGO_DIR = os.path.dirname(BASE_DIR)
-print MY_DJANGO_DIR
-sys.path.append(MY_DJANGO_DIR)  
+sys.path.append(MY_DJANGO_DIR)
 os.environ['DJANGO_SETTINGS_MODULE'] ='master_node.settings'
+
+
 
 import django
 django.setup()
