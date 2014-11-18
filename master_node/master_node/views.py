@@ -193,6 +193,12 @@ def nodes(request):
                                         context_instance=RequestContext(request,))
     
 
+def up(request):
+
+    return render_to_response("index.html", {
+        'up': up_user(),
+    },
+                                        context_instance=RequestContext(request,))
 
 def tree(request,id):
     try:

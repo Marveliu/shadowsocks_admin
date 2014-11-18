@@ -19,6 +19,7 @@ urlpatterns = patterns('master_node.views',
 	# 重置密码页
     
 	(r'^nodes/$',  'nodes',),
+	(r'^up/$',  'up',),
 	(r'^accounts/register/$',  'register',),
 	(r'^accounts/login/$',  login,),
 	(r'^accounts/profile/$',  'profile',),
