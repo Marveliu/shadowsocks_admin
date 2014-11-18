@@ -150,7 +150,7 @@ class UserCreationForm(forms.ModelForm):
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError(
-                self.error_messages['password_mismatch'],
+                u'两次密码不相同，请重试。',
                 code='password_mismatch',
             )
         return password2
