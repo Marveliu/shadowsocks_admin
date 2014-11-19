@@ -4,7 +4,10 @@
 u""" 为流量统计功能增加 iptables 规则
 
 实测发现在搬瓦工 VPS 上面添加150多个端口的规则时出现 "iptables: Memory allocation problem." 错误.
-DO VPS上面添加了500个端口的规则没有任何问题。可能 Openvz VPS 有限制。
+DO VPS上面添加了500个端口的规则没有任何问题。确认了，是搬瓦工做的限制，下面是详细文档。
+egrep "failcnt|numiptent" /proc/user_beancounters
+http://wiki.openvz.org/Proc/user_beancounters
+http://wiki.openvz.org/Numiptent#numiptent
 
 记录个命令
 iptables-save  > /etc/iptables-save
