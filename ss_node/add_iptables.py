@@ -4,7 +4,7 @@
 import os
 
 def add_iptables():
-    for i in range(8000,8010):
+    for i in range(8000,8500):
         #os.system("iptables -I INPUT -d 107.170.230.206 -p tcp --dport 8388")
         print ("add %s"%i)
         os.system("iptables -I INPUT  -p tcp --dport %s" %i)
