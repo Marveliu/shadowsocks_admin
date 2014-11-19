@@ -86,8 +86,8 @@ def get_flow(aes_data):
     if text == None:return xmlrpclib.Binary(json.dumps({'statos':'err_ase'},encoding='utf8'))
 
     res={
-            'flow_in':[],  # [(8001,3916788L)]
-            'flow_out':[],
+            'flow_in':{},  # {8001:3916788L}
+            'flow_out':{},
             'status':'ok'
         }
 
@@ -103,13 +103,13 @@ def get_flow(aes_data):
         if len(rule.matches)>0:
             sport = rule.matches[0].sport
             if sport:
-                res['flow_out'].append((sport,rule.get_counters()[1]))
+                res['flow_out'][sport] = rule.get_counters()[1]
 
     for rule in chain_in.rules:
         if len(rule.matches)>0:
             dport = rule.matches[0].dport
             if sport:
-                res['flow_in'].append((dport,rule.get_counters()[1]))
+                res['flow_in'][dport] = rule.get_counters()[1]
 
 
     return xmlrpclib.Binary(mycrypto.encrypt_verify(AES_KEY,json.dumps(res,encoding='utf8')))

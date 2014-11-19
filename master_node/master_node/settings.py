@@ -38,6 +38,9 @@ ALLOWED_HOSTS = []
 # Django 数据库配置
 DATABASES = None
 
+# 流量统计间隔(单位分钟)
+FLOW_INTERVAL = 5
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # My Shadowsocks 项目目录
@@ -55,6 +58,7 @@ try:
     TEMPLATE_DEBUG = config.DEBUG
     ALLOWED_HOSTS = config.ALLOWED_HOSTS
     DATABASES = config.DATABASES
+    FLOW_INTERVAL = config.FLOW_INTERVAL
 except ImportError,inst :
     print (u'未找到配置文件，或配置文件错误，请检查。')
     raise inst

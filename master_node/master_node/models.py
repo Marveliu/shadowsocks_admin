@@ -92,8 +92,10 @@ class Flow(models.Model):
     time= models.DateTimeField(auto_now_add=True)#统计时间
     original_in_flow = models.BigIntegerField(default=0)#原始入站流量
     original_out_flow = models.BigIntegerField(default=0)#原始入站流量
-    in_flow = models.BigIntegerField(default=0)#入站流量
-    out_flow = models.BigIntegerField(default=0)#入站流量
+    in_flow = models.BigIntegerField(default=0)#本次入站流量
+    out_flow = models.BigIntegerField(default=0)#本次入站流量本次
+    all_in_flow = models.BigIntegerField(default=0)#单节点所有入站流量
+    all_out_flow = models.BigIntegerField(default=0)#单节点所有入站流量本次
     port = models.IntegerField()#ss端口
     node_id = models.IntegerField()#节点id
     

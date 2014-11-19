@@ -31,7 +31,8 @@ DEBUG = False
 # Django ALLOWED_HOSTS
 ALLOWED_HOSTS=['*']
 
-
+# 流量统计间隔(单位分钟)
+FLOW_INTERVAL = 5
 
 DATABASES = {
     'default': {
