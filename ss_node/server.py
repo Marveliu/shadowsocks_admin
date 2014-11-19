@@ -100,16 +100,21 @@ def get_flow(aes_data):
     table.refresh()
 
     for rule in chain_out.rules:
-        if len(rule.matches)>0:
-            sport = rule.matches[0].sport
-            if sport:
+        try:
+            if len(rule.matches)==1:
+                sport = int(rule.matches[0].sport)
                 res['flow_out'][sport] = rule.get_counters()[1]
-
+        except Exception,inst:
+            print (u'[警告]未知的 iptables 规则，如果是其他软件添加的可以忽略。')
+            print(inst)
     for rule in chain_in.rules:
-        if len(rule.matches)>0:
-            dport = rule.matches[0].dport
-            if sport:
+        try:
+            if len(rule.matches)==1:
+                dport = int(rule.matches[0].dport)
                 res['flow_in'][dport] = rule.get_counters()[1]
+        except Exception,inst:
+            print (u'[警告]未知的 iptables 规则，如果是其他软件添加的可以忽略。')
+            print(inst)
 
 
     return xmlrpclib.Binary(mycrypto.encrypt_verify(AES_KEY,json.dumps(res,encoding='utf8')))
