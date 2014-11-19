@@ -18,7 +18,8 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer
 import xmlrpclib
 import json
 import os,sys
-import time, sys,iptc
+import time, sys,iptc  # iptc 包通过 sudo pip install python-iptables 安装
+
 
 
 

@@ -41,8 +41,8 @@ AES_KEY = settings.AES_KEY
 SS_NODE_LISTENING_PORT= settings.SS_NODE_LISTENING_PORT
 # 主服务器后台进程监听端口
 MASTER_SERVER_LISTENING_PORT= settings.MASTER_SERVER_LISTENING_PORT
-  
-  
+# 流量统计间隔
+FLOW_INTERVAL = settings.FLOW_INTERVAL
 import mycrypto
   
 
@@ -180,7 +180,7 @@ def up_flow():
     
 def while_up_flow():
     minute = -1
-    FLOW_INTERVAL = settings.FLOW_INTERVAL
+    
 
     while(1):
         now = datetime.now()
