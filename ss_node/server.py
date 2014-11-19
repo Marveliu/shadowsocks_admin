@@ -86,7 +86,7 @@ def get_flow(aes_data):
     if text == None:return xmlrpclib.Binary(json.dumps({'statos':'err_ase'},encoding='utf8'))
 
     res={
-            'flow_in':{},  # {8001:3916788L}
+            'flow_in':{},  # {u'8001':3916788L}
             'flow_out':{},
             'status':'ok'
         }
