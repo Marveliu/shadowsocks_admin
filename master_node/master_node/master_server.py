@@ -19,7 +19,7 @@ import json
 import os,sys
 import hashlib
 import thread  
-import datetime,time
+import time
 
 # DJANGO 配置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
