@@ -88,7 +88,7 @@ def up_user():
 class Flow(models.Model):
     u'''流量统计表'''
 
-    user = models.ForeignKey(User,unique=True)  #User 外键且唯一
+    user = models.ForeignKey(User)  #User 外键
     time= models.DateTimeField(auto_now_add=True)#统计时间
     original_in_flow = models.BigIntegerField(default=0)#原始入站流量
     original_out_flow = models.BigIntegerField(default=0)#原始入站流量

@@ -118,7 +118,7 @@ def up_flow():
     node_flow = []
     nodes = Node.objects.all()
     for n in nodes:
-        print (u'开始获得节点 %s 的流量信息'%n.addr)
+        print (u'%s 开始获得节点 %s 的流量信息'%(now,n.addr))
         try:
             f = get_flow(n.addr)
             f['node_id']=n.id
@@ -132,15 +132,16 @@ def up_flow():
     Profiles = Profile.objects.filter(is_full=False,start_date__lte=datetime.now(),end_date__gte=datetime.now())
     for p in Profiles:
         for n in node_flow:
-            if not n['flow_in'].has_key(p.sport):
+            if not n['flow_in'].has_key(unicode(p.sport)):
                 print u'[错误][流量统计] 节点 %s(%s) iptables 未统计用户id:%s 端口 %s 的进站流量！' %(n['node_name'],n['node_addr'],p.user_id,p.sport)
                 continue
-            if not n['flow_out'].has_key(p.sport):
+            if not n['flow_out'].has_key(unicode(p.sport)):
                 print u'[错误][流量统计] 节点 %s(%s) iptables 未统计用户id:%s 端口 %s 的出站流量！' %(n['node_name'],n['node_addr'],p.user_id,p.sport)
                 continue
 
-            original_in_flow = n['flow_in'][p.sport]
-            original_out_flow = n['flow_out'][p.sport]
+            # 本次统计到的原始流量(节点端口开放至今的流量)
+            original_in_flow = n['flow_in'][unicode(p.sport)]
+            original_out_flow = n['flow_out'][unicode(p.sport)]
 
             #当前用户本节点所有已用流量
             all_flow_in = 0
@@ -150,15 +151,18 @@ def up_flow():
             flow_in = 0
             flow_out = 0
 
-            flow_old_log = Flow.objects.filter(user_id=p.user_id,node_id=n['node_id']).order_by('-time')[0]
+            flow_old_log_list = Flow.objects.filter(user_id=p.user_id,node_id=n['node_id']).order_by('-time')[:1]
+            flow_old_log = None
+            if len(flow_old_log_list) >0:
+                flow_old_log=flow_old_log_list[0]
             if flow_old_log:
                 all_flow_in = flow_old_log.all_in_flow
                 all_flow_out = flow_old_log.all_out_flow
                 if flow_old_log.port==p.sport :
                 # 这里限制仔细点，宁愿漏掉一次统计也别多统计
                     if original_in_flow > flow_old_log.original_in_flow  and original_out_flow > flow_old_log.original_out_flow:
-                        flow_in = all_flow_in - flow_old_log.original_in_flow
-                        flow_out = all_flow_out - flow_old_log.original_out_flow
+                        flow_in = original_in_flow - flow_old_log.original_in_flow
+                        flow_out = original_out_flow - flow_old_log.original_out_flow
                         all_flow_in +=flow_in
                         all_flow_out +=flow_out
 
@@ -167,9 +171,9 @@ def up_flow():
                                 in_flow = flow_in,out_flow=flow_out,
                                 all_in_flow = all_flow_in,all_out_flow=all_flow_out)
 
-            p.used_flow += (  in_flow + flow_out )
+            p.used_flow =p.used_flow + (  flow_in + flow_out )
             flow_new_log.save()
-        if (p.used_flow>all_flow):
+        if (p.used_flow>p.all_flow):
             p.is_full = True
         p.save()
 
@@ -181,7 +185,7 @@ def while_up_flow():
     while(1):
         now = datetime.now()
         if now.minute % FLOW_INTERVAL == 0 and now.minute != minute:
-            print('%s 开始统计流量' % now)
+            print(u'%s 开始统计流量' % now)
             minute = now.minute
             up_flow()
 #            try:
